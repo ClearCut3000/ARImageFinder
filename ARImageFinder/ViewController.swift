@@ -32,6 +32,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 
     // Create a session configuration
     let configuration = ARImageTrackingConfiguration()
+
     // Detect image.
     configuration.maximumNumberOfTrackedImages = 5
     configuration.trackingImages = ARReferenceImage.referenceImages(inGroupNamed: "AR Resources", bundle: nil)!
@@ -69,8 +70,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     // Create plane of the same size
     let height = 67 / 65 * size.height
     let width = image.name == "horses" ?
-    156 / 150 / 8.525 * size.width :
-    156 / 150 / 8.7668 * size.width
+    156 / 150 * 15 / 8.525 * size.width :
+    156 / 150 * 15 / 8.7668 * size.width
     let plane = SCNPlane(width: width, height: height)
     plane.firstMaterial?.diffuse.contents = image.name == "horses" ? UIImage(named: "ben") : videoPlayer
 
@@ -83,13 +84,14 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     planeNode.eulerAngles.x = -.pi / 2
 
     // Move plane node
-     planeNode.position.x += image.name == "theatre" ? 0.01 : 0
+     planeNode.position.x += image.name == "theatre" ? 0 : 0
 
     // Run animation
-    planeNode.runAction(.sequence([
-      .wait(duration: 10),
-      .fadeOut(duration: 3),
-      .removeFromParentNode()
+    planeNode.runAction(
+      .sequence([
+        .wait(duration: 10),
+        .fadeOut(duration: 3),
+        .removeFromParentNode()
     ]))
 
     // Add child node
